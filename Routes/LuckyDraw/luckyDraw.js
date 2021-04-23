@@ -22,6 +22,7 @@ const getoneweekcheck = function (eventDate) {
     const today = new Date(timeElapsed);
     const dateoneweek = new Date();
     dateoneweek.setDate(dateoneweek.getDate() - 7);
+    console.log(today);
 };
 
 const getoneweek = function (luckdraw) {
@@ -54,9 +55,10 @@ const getoneweek = function (luckdraw) {
                         firstnum,
                         secondnum
                     );
-                    e['winners']['second_position'].push(e[thirdnum]);
+                    e['winners']['third_position'].push(e[thirdnum]);
                 }
             }
+            result.push(e);
         }
     });
 };
@@ -186,6 +188,7 @@ route.get('/getlastweekwinner', (req, res, next) => {
         if (err) console.log(err);
         else {
             const result = getoneweek(luckdraw);
+            res.json(new ApiSuccess(result));
         }
     });
 });

@@ -7,12 +7,15 @@ const session = require('express-session');
 const User = require('./models/user');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const luckyDrawRoutes = require('./Routes/luckyDraw');
+const luckyDrawRoutes = require('./Routes/LuckyDraw/luckyDraw');
+const Auth = require('./Routes/Auth/googleAuth');
 const app = express();
 
 dotenv.config({
     path: 'config.env',
 });
+
+// local mongos database
 
 mongoose
     .connect('mongodb://localhost:27017/grofers', {
@@ -29,6 +32,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+// Auth session && Googlepassport Auth setup
 app.use(
     session({
         secret: 'foo',
@@ -36,6 +40,7 @@ app.use(
         saveUninitialized: false,
     })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -80,8 +85,13 @@ passport.use(
         }
     )
 );
+
+// Routes
+
+app.use(Auth);
 app.use(luckyDrawRoutes);
 
+// server listen Port
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(cat());

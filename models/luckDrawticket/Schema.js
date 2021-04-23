@@ -21,23 +21,23 @@ const luckyDrawSchema = new Schema({
     },
     event_date: {
         sec: {
-            type: String,
-            default: '0',
+            type: Number,
+            default: 0,
         },
         min: {
-            type: String,
+            type: Number,
         },
         hour: {
-            type: String,
+            type: Number,
         },
         day: {
-            type: String,
+            type: Number,
         },
         month: {
-            type: String,
+            type: Number,
         },
         year: {
-            type: String,
+            type: Number,
         },
     },
     participated_users: [

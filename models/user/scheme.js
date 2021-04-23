@@ -16,8 +16,6 @@ const UserSchema = new Schema({
         type: String,
     },
     tickets: [{ type: ObjectId, ref: 'luckyDraw' }],
-    valid: [{ type: ObjectId, ref: 'luckyDraw' }],
-    invalid: [{ type: ObjectId, ref: 'luckyDraw' }],
 });
 
 /**
