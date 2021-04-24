@@ -28,7 +28,7 @@ const checkvalidity = function (eventDate) {
 const sortluckyDraw = function (a, b) {
     console.log(a, b);
     if (a['event_date']['year'] <= b['event_date']['year']) {
-        if (a['event_date']['year'] < b['year']) return true;
+        if (a['event_date']['year'] < b['event_date']['year']) return true;
         if (a['event_date']['year'] === b['event_date']['year']) {
             if (a['event_date']['month'] < b['event_date']['month'])
                 return true;
@@ -111,18 +111,19 @@ const timematch = function (luckydraw) {
     return false;
 };
 
-const checkParticipation = function (users, userId) {
-    users.forEach((e) => {
-        if (e.id === userId) return true;
-    });
-    return false;
+const checkParticipation = function (UserticketList, userId) {
+    for (var i = 0; i < UserticketList.length; i++)
+        if (JSON.stringify(UserticketList[i]) === JSON.stringify(userId))
+            return false;
+    return true;
 };
 
 const checkalreadyhaveticket = function (UserticketList, ticketId) {
-    UserticketList.forEach((e) => {
-        if (e === ticketId) return true;
-    });
-    return false;
+    for (var i = 0; i < UserticketList.length; i++)
+        if (JSON.stringify(UserticketList[i]) === JSON.stringify(ticketId))
+            return false;
+
+    return true;
 };
 
 const firstrandomNumber = function (min, max) {
@@ -151,6 +152,7 @@ const getoneweek = function (luckdraw) {
     luckdraw.forEach((e) => {
         if (e.isvalid) e.isvalid = checkvalidity(e['event_date']);
         const check = getoneweekcheck(e['event_date']);
+
         if (check) {
             if (
                 e['winners']['first_position'] === undefined &&

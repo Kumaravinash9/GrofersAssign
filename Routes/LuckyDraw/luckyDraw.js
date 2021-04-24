@@ -84,38 +84,46 @@ route.get('/:id/valideparticapate/api', (req, res, next) => {
 // provide a random ticket to the User
 
 route.get('/:id/getrandomticket', (req, res, next) => {
-    User.findById(req.params.id)
-        .populate('tickets')
-        .exec(function (err, user) {
-            if (err) {
-                console.log(err);
-            } else {
-                LuckyDraw.find({}, function (err, luckydraws) {
-                    if (err) console.log(err);
-                    // eslint-disable-next-line object-shorthand
-                    else {
-                        const result = [];
-                        luckydraws.forEach((e) => {
-                            if (e.isvalid)
-                                e.isvalid = checkvalidity(e['event_date']);
-                            if (
-                                e.isvalid &&
-                                !checkParticipation(
-                                    e['participated_users'],
-                                    user._id
-                                ) &&
-                                !checkalreadyhaveticket(user['tickets'], e._id)
-                            )
-                                result.push(e);
-                        });
-                        console.log(result.length);
-                        let luckynum = firstrandomNumber(0, result.length);
-                        user['tickets'].push(result[luckynum]);
-                        res.json(new ApiSuccess(user));
-                    }
-                });
-            }
-        });
+    User.findById(req.params.id, function (err, user) {
+        if (err) {
+            console.log(err);
+        } else {
+            LuckyDraw.find({}, function (err, luckydraws) {
+                if (err) console.log(err);
+                // eslint-disable-next-line object-shorthand
+                else {
+                    const result = [];
+
+                    luckydraws.forEach((e) => {
+                        if (e.isvalid)
+                            e.isvalid = checkvalidity(e['event_date']);
+
+                        if (
+                            e.isvalid &&
+                            checkParticipation(
+                                e['participated_users'],
+                                user._id
+                            ) &&
+                            checkalreadyhaveticket(user['tickets'], e._id)
+                        ) {
+                            result.push(e);
+                        }
+                    });
+                    console.log(result.length);
+                    const luckynum = firstrandomNumber(0, result.length);
+                    if (result.length)
+                        User.update(
+                            { _id: req.params.id },
+                            { $push: { tickets: result[luckynum] } },
+                            function (err, user) {
+                                console.log(user);
+                            }
+                        );
+                    res.json(new ApiSuccess(user));
+                }
+            });
+        }
+    });
 });
 
 // check user can able to take part in particular luckyenvent or not
@@ -219,7 +227,7 @@ route.get('/:id/winners', (req, res, next) => {
                         luckdraws[thirdnum]
                     );
                 }
-                luckdraws.save();
+                // luckdraws.save();
                 res.json(new ApiSuccess(luckdraws['winners']));
             } else {
                 res.json(new ApiSuccess(luckdraws));
