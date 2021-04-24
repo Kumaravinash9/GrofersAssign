@@ -6,8 +6,8 @@ const checkvalidity = function (eventDate) {
     if (today.getFullYear() <= eventDate['year']) {
         if (today.getFullYear() < eventDate['year']) return true;
         if (today.getFullYear() === eventDate['year']) {
-            if (today.getMonth() < eventDate['month']) return true;
-            if (today.getMonth() === eventDate['month']) {
+            if (today.getMonth() + 1 < eventDate['month']) return true;
+            if (today.getMonth() + 1 === eventDate['month']) {
                 if (today.getDay() < eventDate['day']) return true;
                 if (today.getDay() === eventDate['day']) {
                     if (today.getHours() < eventDate['hour']) return true;
@@ -64,8 +64,8 @@ const getoneweekcheck = function (eventDate) {
     )
         return false;
     if (
-        eventDate['month'] !== dateoneweek.getMonth() &&
-        eventDate['month'] !== today.getMonth()
+        eventDate['month'] !== dateoneweek.getMonth() + 1 &&
+        eventDate['month'] !== today.getMonth() + 1
     )
         return false;
     if (dateoneweek.getDay() > today.getDay()) {
@@ -83,32 +83,7 @@ const getoneweekcheck = function (eventDate) {
             return true;
         return false;
     }
-};
-
-const timematch = function (luckydraw) {
-    const timeElapsed = Date.now();
-    const today = new Date(timeElapsed);
-    const eventDate = luckydraw['event_date'];
-    if (today.getFullYear() <= eventDate['year']) {
-        if (today.getFullYear() < eventDate['year']) return true;
-        if (today.getFullYear() === eventDate['year']) {
-            if (today.getMonth() < eventDate['month']) return true;
-            if (today.getMonth() === eventDate['month']) {
-                if (today.getDay() < eventDate['day']) return true;
-                if (today.getDay() === eventDate['day']) {
-                    if (today.getHours() < eventDate['hour']) return true;
-                    if (today.getHours() === eventDate['hour']) {
-                        if (today.getMinutes() < eventDate['min']) return true;
-                        if (today.getMinutes() === eventDate['min']) {
-                            if (today.getSeconds() < eventDate['sec'])
-                                return true;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return false;
+    return true;
 };
 
 const checkParticipation = function (UserticketList, userId) {
@@ -152,25 +127,26 @@ const getoneweek = function (luckdraw) {
     luckdraw.forEach((e) => {
         if (e.isvalid) e.isvalid = checkvalidity(e['event_date']);
         const check = getoneweekcheck(e['event_date']);
-
         if (check) {
             if (
-                e['winners']['first_position'] === undefined &&
+                e['winners']['first_postion']['name'] === undefined &&
                 e['participated_users'].length
             ) {
                 const firstnum = firstrandomNumber(
                     0,
                     e['participated_users'].length > 0
                 );
-                e['winners']['second_position'].push(e[firstnum]);
+                e['winners']['first_postion'] =
+                    e['participated_users'][firstnum];
                 if (e['participated_users'].length > 1) {
                     // eslint-disable-next-line no-var
                     var secondnum = secondrandomNumber(
                         0,
-                        luckdraws['participated_users'].length,
+                        e['participated_users'].length,
                         firstnum
                     );
-                    e['winners']['second_position'].push(e[secondnum]);
+                    e['winners']['second_position'] =
+                        e['participated_users'][secondnum];
                 }
                 if (e['participated_users'].length > 2) {
                     var thirdnum = thirdrandomNumber(
@@ -179,8 +155,13 @@ const getoneweek = function (luckdraw) {
                         firstnum,
                         secondnum
                     );
-                    e['winners']['third_position'].push(e[thirdnum]);
+                    e['winners']['third_position'] =
+                        e['participated_users'][thirdnum];
                 }
+                e.save(function (err, done) {
+                    if (err) console.log(err);
+                    else console.log(done);
+                });
             }
             result.push(e);
         }
@@ -202,5 +183,4 @@ module.exports = {
     checkalreadyhaveticket,
     getoneweek,
     getoneweekcheck,
-    timematch,
 };

@@ -11,6 +11,10 @@ const luckyDrawRoutes = require('./Routes/LuckyDraw/luckyDraw');
 const Auth = require('./Routes/Auth/googleAuth');
 const app = express();
 
+dotenv.config({
+    path: 'config.env',
+});
+
 // local mongos database
 
 mongoose

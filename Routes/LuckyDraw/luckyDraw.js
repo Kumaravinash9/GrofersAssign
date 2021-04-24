@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable no-var */
 const express = require('express');
 const route = express.Router();
@@ -9,7 +10,6 @@ const ApiSuccess = require('../../utils/successmessage');
 const {
     checkvalidity,
     sortluckyDraw,
-    timematch,
     checkParticipation,
     firstrandomNumber,
     secondrandomNumber,
@@ -49,6 +49,40 @@ route.get('/getallluckydraw', isLoggedIn, (req, res, next) => {
 // get all upcoming luckydrwas API
 
 route.get('/getallluckydraw/api', (req, res, next) => {
+    /* LuckyDraw.create(
+        {
+            first_prize: 'Audi',
+            second_prize: 'BMW',
+            third_prize: 'Family Tour Dubai',
+            event_date: {
+                sec: 0,
+                min: 0,
+                hour: 10,
+                day: 22,
+                month: 3,
+                year: 2021,
+            },
+            participated_users: [
+                {
+                    id: '60842bbb074dd63c600f55ca',
+                    name: 'Avinash',
+                },
+                {
+                    id: '60842bbb074dd63c600f55ca',
+                    name: 'Abhishek',
+                },
+                {
+                    id: '60842bbb074dd63c600f55ca',
+                    name: 'Saflata',
+                },
+            ],
+        },
+        function (err, luckdraw) {
+            if (err) console.log(err);
+            else console.log(luckdraw);
+        }
+    );*/
+
     LuckyDraw.find({}, function (err, luckdraws) {
         if (err) res.json(new ApiError());
         else {
@@ -61,24 +95,9 @@ route.get('/getallluckydraw/api', (req, res, next) => {
                 }
             });
             result.sort(sortluckyDraw);
-            res.json(new ApiSuccess(result));
+            res.json(new ApiSuccess(luckdraws));
         }
     });
-});
-
-// All luckydaws where user can take a part if user have a ticket
-
-route.get('/:id/valideparticapate/api', (req, res, next) => {
-    const result = [];
-    luckdraws.forEach((e) => {
-        let obj = {};
-        if (e.isvalid) e.isvalid = checkvalidity(e['event_date']);
-        obj = e;
-        obj.isParticipated = checkParticipation(e['participated_users']);
-        result.push(obj);
-    });
-    result.sort(luckdraws.sort(sortluckyDraw));
-    res.json(new ApiSuccess(result));
 });
 
 // provide a random ticket to the User
@@ -116,7 +135,12 @@ route.get('/:id/getrandomticket', (req, res, next) => {
                             { _id: req.params.id },
                             { $push: { tickets: result[luckynum] } },
                             function (err, user) {
-                                console.log(user);
+                                if (err) console.log(err);
+                                else
+                                    user.save(function (err, done) {
+                                        if (err) console.log(err);
+                                        else console.log(done);
+                                    });
                             }
                         );
                     res.json(new ApiSuccess(user));
@@ -142,16 +166,31 @@ route.get('/:id/checkuservalidity', (req, res, next) => {
                         );
                     if (
                         luckydraws.isvalid &&
-                        !checkParticipation(
+                        checkParticipation(
                             luckydraws['participated_users'],
                             req.user._id
                         ) &&
                         checkalreadyhaveticket(user['tickets'], luckydraws._id)
                     ) {
-                        luckydraws['participate_users'].push({
-                            id: user._id,
-                            name: user.name,
-                        });
+                        LuckyDraw.update(
+                            { _id: req.params.id },
+                            {
+                                $push: {
+                                    participate_users: {
+                                        id: user._id,
+                                        name: user.name,
+                                    },
+                                },
+                            },
+                            function (err, luckdraws) {
+                                if (err) console.log(err);
+                                else
+                                    luckdraws.save(function (err, done) {
+                                        if (err) console.log(err);
+                                        else console.log(done);
+                                    });
+                            }
+                        );
 
                         res.json(
                             new ApiSuccess(
@@ -191,30 +230,29 @@ route.get('/:id/winners', (req, res, next) => {
         .populate('participated_users')
         .exec(function (err, luckdraws) {
             if (err) return res.json(new ApiError());
-            const tymmatch = timematch(luckdraws);
+            const tymmatch = checkvalidity(luckdraws['event_date']);
+
             luckdraws.isvalid = tymmatch;
-            console.log(luckdraws['participated_users'].length);
+            console.log(luckdraws['winners']['first_postion']['name']);
             if (
-                luckdraws['winners']['first_position'] === undefined &&
+                luckdraws['winners']['first_postion']['name'] === undefined &&
                 !tymmatch &&
                 luckdraws['participated_users'].length > 0
             ) {
-                const firstnum = firstrandomNumber(
+                var firstnum = firstrandomNumber(
                     0,
                     luckdraws['participated_users'].length
                 );
-                luckdraws['winners']['second_position'].push(
-                    luckdraws[firstnum]
-                );
+                luckdraws['winners']['first_postion'] =
+                    luckdraws['participated_users'][firstnum];
                 if (luckdraws['participated_users'].length > 1) {
                     var secondnum = secondrandomNumber(
                         0,
                         luckdraws['participated_users'].length,
                         firstnum
                     );
-                    luckdraws['winners']['second_position'].push(
-                        luckdraws[secondnum]
-                    );
+                    luckdraws['winners']['second_position'] =
+                        luckdraws['participated_users'][secondnum];
                 }
                 if (luckdraws['participated_users'].length > 2) {
                     var thirdnum = thirdrandomNumber(
@@ -223,11 +261,13 @@ route.get('/:id/winners', (req, res, next) => {
                         firstnum,
                         secondnum
                     );
-                    luckdraws['winners']['second_position'].push(
-                        luckdraws[thirdnum]
-                    );
+                    luckdraws['winners']['third_position'] =
+                        luckdraws['participated_users'][thirdnum];
                 }
-                // luckdraws.save();
+                luckdraws.save(function (err, done) {
+                    if (err) console.log(err);
+                    else console.log(done);
+                });
                 res.json(new ApiSuccess(luckdraws['winners']));
             } else {
                 res.json(new ApiSuccess(luckdraws));
@@ -237,37 +277,37 @@ route.get('/:id/winners', (req, res, next) => {
 
 module.exports = route;
 
-/* const obj = {
-                first_prize: 'Iphone 12',
-                second_prize: 'Samsung Nexa 8',
-                third_prize: '$500',
-                event_date: {
-                    sec: 0,
-                    min: 30,
-                    hour: 8,
-                    day: 8,
-                    month: 10,
-                    year: 2020,
-                },
-            };
-            LuckyDraw.create(
-                {
-                    first_prize: 'Iphone 12',
-                    second_prize: 'Samsung Nexa 8',
-                    third_prize: '$500',
-                    event_date: {
-                        sec: 20,
-                        min: 20,
-                        hour: 6,
-                        day: 30,
-                        month: 8,
-                        year: 2020,
-                    },
-                },
-                function (err, luckdraw) {
-                    if (err) console.log(err);
-                    else res.json(new ApiSuccess(luckdraws));
-                }
-            );
-        }
-        */
+/*
+LucyDraw.create({
+    first_prize: "Audi",
+    second_prize: "BMW",
+    third_prize: "Family Tour Dubai",
+    event_date: {
+        sec:0,
+        min:0,
+        hour:10,
+        day:10,
+        month:3,
+        year:2021,
+    },
+    participated_users: [
+        {
+            id:"60842bbb074dd63c600f55ca" ,
+            name: "Avinash"
+        },
+         {
+            id: "60842bbb074dd63c600f55ca"  ,
+            name: "Abhishek"
+        },
+         {
+            id: "60842bbb074dd63c600f55ca",
+            name: "Saflata"
+        },
+    ]
+},function(err, luckdraw){
+    if(err)
+    console.log(err);
+    else console.log(luckdraw);
+}
+})
+    */
