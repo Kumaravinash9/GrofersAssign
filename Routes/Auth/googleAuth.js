@@ -7,15 +7,19 @@ route.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 route.get(
     '/googleAuth',
     passport.authenticate('google', {
-        failureRedirect: '/login',
-        successRedirect: '/campground',
+        failureRedirect: '/',
+        successRedirect: '/getallluckydraw',
     }),
     function (req, res) {}
 );
 
 route.get('/logout', function (req, res) {
     req.logout();
-    res.redirect('/');
+    res.redirect('/getallluckydraw/api');
+});
+
+route.get('/', function (req, res) {
+    res.render('login.ejs');
 });
 
 module.exports = route;

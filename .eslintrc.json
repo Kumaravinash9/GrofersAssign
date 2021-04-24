@@ -9,7 +9,7 @@
     "parserOptions": {
         "ecmaVersion": 12
     },
-    "ignorePatterns": ["node_modules/*", "config.env"],
+    "ignorePatterns": ["node_modules/*", "config.env", "Routes/*"],
     "rules": {
         "linebreak-style": ["off", "unix"],
         "quotes": ["error", "single"],

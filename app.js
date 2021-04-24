@@ -11,10 +11,6 @@ const luckyDrawRoutes = require('./Routes/LuckyDraw/luckyDraw');
 const Auth = require('./Routes/Auth/googleAuth');
 const app = express();
 
-dotenv.config({
-    path: 'config.env',
-});
-
 // local mongos database
 
 mongoose
@@ -50,6 +46,7 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (id, done) {
     User.findById(id, function (err, user) {
         if (err) console.log(err);
+
         done(null, user);
     });
 });
@@ -57,25 +54,28 @@ passport.deserializeUser(function (id, done) {
 passport.use(
     new GoogleStrategy(
         {
-            clientID: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            clientID:
+                '179375713146-4465b5ku1uum5t9o1vgi7u8uaq8jps0a.apps.googleusercontent.com',
+            clientSecret: 'cFmmwyFcssa4Qp2Vzp_yKS5F',
             callbackURL: '/googleAuth',
         },
         function (accessToken, refreshToken, profile, done) {
-            User.findOne({ email: profile.email }, function (err, user) {
+            User.findOne({ googleId: profile.id }, function (err, user) {
                 if (err) console.log(err);
                 else {
                     if (user) {
                         done(null, user);
                     } else {
+                        console.log(profile);
                         User.create(
                             {
-                                username: profile.displayName,
+                                name: profile.displayName,
+                                prof_pic: profile.photos[0].value,
                                 googleId: profile.id,
                             },
                             function (err, user) {
-                                user.save();
-                                done(null, user);
+                                if (err) console.log(err);
+                                else done(null, user);
                                 console.log(user);
                             }
                         );
@@ -87,12 +87,14 @@ passport.use(
 );
 
 // Routes
-
-app.use(Auth);
 app.use(luckyDrawRoutes);
+app.use(Auth);
 
+app.get('*', function (req, res) {
+    res.json({ message: 'something went worng' });
+});
 // server listen Port
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+// const PORT = process.env.PORT || 3000;
+app.listen(3000, () => {
     console.log(cat());
 });

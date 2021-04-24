@@ -40,6 +40,10 @@ const luckyDrawSchema = new Schema({
             type: Number,
         },
     },
+    isvalid: {
+        type: Boolean,
+        default: true,
+    },
     participated_users: [
         {
             id: {
@@ -51,10 +55,6 @@ const luckyDrawSchema = new Schema({
             },
         },
     ],
-    isvalid: {
-        type: Boolean,
-        defalut: true,
-    },
     winners: {
         first_postion: {
             id: { type: ObjectId, ref: 'user' },

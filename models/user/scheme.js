@@ -7,10 +7,8 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
-    email: {
+    googleId: {
         type: String,
-        required: true,
-        unique: true,
     },
     prof_pic: {
         type: String,
