@@ -96,7 +96,7 @@ app.use(luckyDrawRoutes);
 app.use(Auth);
 
 // server listen Port
-// const PORT = process.env.PORT || 3000;
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
     console.log(cat());
 });
