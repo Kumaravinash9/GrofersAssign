@@ -38,7 +38,7 @@ A LuckyDraw Event App
 * `npm: v6.14.41`
 * `MongoDb`
 
-**Fontent Section**
+**Fontend Section**
 
     HTML
     CSS
