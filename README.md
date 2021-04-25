@@ -1,5 +1,7 @@
 # GrofersAssign
-A Google Chrome extension which calculates performance-based metrics for researchers from Google Scholar profile.
+A LuckyDraw Event App 
+
+**APP LINK :https://nameless-beyond-87561.herokuapp.com/**
 
 ### Prerequisites
 
