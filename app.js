@@ -10,23 +10,24 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const luckyDrawRoutes = require('./Routes/LuckyDraw/luckyDraw');
 const Auth = require('./Routes/Auth/googleAuth');
 const app = express();
+const cors = require('cors');
 
 dotenv.config({
     path: 'config.env',
 });
-
+app.use(cors());
 // local mongos database
+mongoose.connect(
+    'mongodb+srv://avinash:9905645732@cluster1.pkvrv.mongodb.net/grofers?retryWrites=true&w=majority',
+    { useNewUrlParser: true, useFindAndModify: true, useUnifiedTopology: true }
+);
+mongoose.connection.on('connected', () => {
+    console.log('it is Connected Now');
+});
 
-mongoose
-    .connect('mongodb://localhost:27017/grofers', {
-        useNewUrlParser: true,
-    })
-    .then(() => {
-        console.log('Connected to Database');
-    })
-    .catch((err) => {
-        console.log('Not Connected to Database ERROR! ', err);
-    });
+mongoose.connection.on('error', () => {
+    console.log('anything is garbar ');
+});
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
