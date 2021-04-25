@@ -11,7 +11,7 @@ A Google Chrome extension which calculates performance-based metrics for researc
 
 * Fork to get your own copy of the project 
 * Clone the repo
-* `cd aossie-scholar/`
+* `cd Grofers/`
 * `npm install`
 * `npm start/nodemon`
 
