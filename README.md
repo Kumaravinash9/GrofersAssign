@@ -20,5 +20,5 @@ A Google Chrome extension which calculates performance-based metrics for researc
 * run `localhost:3000` in the browser 
 
 #### Code linting and formatting
-Aossie Scholar uses **Prettier + Eslint** for code listing and formatting. To check if your code follows the guidelines, run `npm run prettier`
+GrofersAssign uses **Prettier + Eslint** for code listing and formatting. To check if your code follows the guidelines, run `npm run prettier`
 
