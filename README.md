@@ -6,7 +6,7 @@
 consumed in a lot of ways like We can call this API after the user has placed
 an Order.
 
-In the App, I added RandomTicket button in the Home Screen. Whenever a user tap a RandomTicket button, I simply filtered all the occured luckydraw event and also filtered those event of which user have already a ticket and also filter those event in which user has already particiated. After filtering  the events, i simply chose random event from the remainig events  and provide it to the user. In this way, I provided a random ticket to the user. Logic code is available in `Routes/LuckyDraw/luckyDraw.js`.
+Inside the App, I added RandomTicket button in the Home Screen. Whenever a user tap a RandomTicket button, I simply filtered all the occured luckydraw event and also filtered those event of which user have already a ticket and also filter those event in which user has already particiated. After filtering  the events, i simply chose random event from the remainig events  and provide it to the user. In this way, I provided a random ticket to the user. Logic code is available in `Routes/LuckyDraw/luckyDraw.js`.
 
 * Design an API which shows the next Lucky Draw Event timing & the
 corresponding reward. For example - Lucky Draw can run everyday at 8AM.
