@@ -1,8 +1,44 @@
 # GrofersAssign
-A LuckyDraw Event App
  
+**Goals :**
+
+* Design an API which allows users to get the raffle tickets. This API can be
+consumed in a lot of ways like We can call this API after the user has placed
+an Order.
+
+In the App, I added RandomTicket button in the Home Screen. Whenever a user tap a RandomTicket button, I simply filtered all the occured luckydraw event and also filtered those event of which user have already a ticket and also filter those event in which user has already particiated. After filtering  the events, i simply chose random event from the remainig events  and provide it to the user. In this way, I provided a random ticket to the user. Logic code is available in `Routes/LuckyDraw/luckyDraw.js`.
+
+* Design an API which shows the next Lucky Draw Event timing & the
+corresponding reward. For example - Lucky Draw can run everyday at 8AM.
+Reward on say 10th Feb is Phone, 11th Feb is Washing Machine etc
+
+I simply filter  all the events which has been finished before the `Date.now()`. Logic code for filtering the events is available in `Routes/LuckyDraw/luckyDrawUtils.js` function `checkvalidity`.
+
+
+* Design an API which allows users to participate in the game. Once a user
+has participated with a raffle ticket, she shouldn’t be able to participate
+again in the same event.
+
+I created a User model which have a field name `tickets` which contains all the tickets id that he/she have and also created a Luckydraw model which contain a field `participated-users` which contains a list of participated user's id. using these  field, i  checked if user have already participated or have a not a valid ticket then they can't take a part in the event.  Logic code is defined in  `Routes/LuckyDraw/luckyDraw.js` route `:id/getrandomticket`.
+
+* Design an API which lists all the winners of all the events in the last one
+week.
+
+I defined a function which checks that a event will occur or not in last one week (function  is  defined in `Routes/LuckyDraw/luckyDrawUtils.js` function name `getoneweek`.).
+using this function, i filtered the event which  has occured in one week ago and also check the winners of the event decided or not . if not, i find the three random users for the list of participated user and insert the random users in the `winners field` and return the list of winners. Logic code is defined in  `Routes/LuckyDraw/luckyDraw.js` route `/getlastweekwinner`.
+
+* Compute the winner for the event and announce the winner.
+almost same as for the lastoneweekwinners API.  Logic code is defined in  `Routes/LuckyDraw/luckyDraw.js` route `/:id/winners`.
+
+
+
+
+
+
   
  Here Is the link of the Website : https://nameless-beyond-87561.herokuapp.com/
+ 
+ 
  
  
  
