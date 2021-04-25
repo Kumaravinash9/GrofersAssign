@@ -1,0 +1,70 @@
+<link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous"
+/>
+
+<nav
+    class="navbar navbar-expand navbar-dark bg-dark fixed-top justify-content-between"
+>
+    <a class="navbar-brand" href="/campground">GetRandomTicket</a>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="/getallluckydraw" class="text-white mr-4"> BACK </a>
+        </li>
+    </ul>
+</nav>
+
+<section class="conatiner mt-5">
+    <div class="d-flex justify-content-center">
+        <div
+            style="
+                width: 40vw;
+                height: 35vh;
+                margin-top: 20vh;
+                background: rgba(201, 201, 193, 0.2);
+            "
+            class="align-self-center border rounded"
+        >
+            <%if(!id){%>
+            <div class="container pb-4">
+                <div class="mt-4 text-danger" style="font-weight: 800">
+                    Oops! something went wrong
+                </div>
+                <hr />
+                <p style="color: black">
+                    May be you have all the tickets of upcoming event or there
+                    is no upcoming event approching
+                </p>
+            </div>
+
+            <%}else {%>
+            <div class="container pb-4">
+                <div class="mt-4 text-success" style="font-weight: 800">
+                    Congratulation! you get a luckdraw coupon
+                </div>
+                <hr />
+                <div class="row p-2 mb-4">
+                    <div class="col-6" style="font-weight: bold">TicketID</div>
+                    <div class="col-6 text-center" style="font-weight: bold">
+                        <%-id%>
+                    </div>
+                </div>
+                <a
+                    class="text-center"
+                    style="margin-left: 34%"
+                    href="/getlastweekwinner/api"
+                    ><button
+                        class="btn btn-outline-success my-2 my-sm-0 text-black border-black ml-2"
+                        type="submit"
+                    >
+                        Visit the Offer
+                    </button>
+                </a>
+            </div>
+
+            <%}%>
+        </div>
+    </div>
+</section>

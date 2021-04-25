@@ -5,29 +5,123 @@
     crossorigin="anonymous"
 />
 <nav
-    class="navbar navbar-light bg-dark justify-content-center navbar-fixed text-white"
+    class="navbar navbar-expand navbar-dark bg-dark fixed-top justify-content-between  "
 >
-    <a class="navbar-brand" id="brand" style="font-weight: 800; font-size: 2rem"
-        >LuckyDraw Event</a
-    >
+    <a class="navbar-brand" href="/">LuckyDraw</a>
+<div>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="/<%- user._id%>/getrandomticket"
+                ><button
+                    class="btn btn-outline-success my-2 my-sm-0 text-black border-black ml-2"
+                    type="submit"
+                >
+                    GetRandomTicket
+                </button>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/getlastweekwinner"
+                ><button
+                    class="btn btn-outline-success my-2 my-sm-0 text-black border-black ml-2"
+                    type="submit"
+                >
+                    LastWeekWinners
+                </button>
+            </a>
+        </li>
+    
+    </div>
 </nav>
-
-<div class="container d-flex justify-content-center" style="margin-top: 20vh">
-    <div class="row ml-4">
-        <div class="col-md-12">
-            <a
-                class="btn btn-outline-dark"
-                href="/<%=user._id%>/getrandomticket"
-                role="button"
-                style="text-transform: none"
-            >
-                <img
-                    width="200px"
-                    style="margin-bottom: 3px; margin-right: 5px"
-                    alt="Google sign-in"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
-                />
+<section class="mt-5 pt-2">
+   
+    <div class="section-3 mt-4 container">
+        <div class="d-flex justify-content-between m-3 ">
+            <h3>Upcoming Events</h3>
+            <a class="form-inline" href="/getallluckydraw/api">
+                <button
+                    class="btn btn-outline-success my-2 my-sm-0 text-black border-black"
+                    type="submit"
+                >
+                    UpcomingEvents API
+                </button>
             </a>
         </div>
+
+        <table class="table border">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">EventId</th>
+                    <th scope="col">Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%upcomingevent.forEach(function(upcomingevent){%>
+                <tr>
+                    <th scope="row">*</th>
+
+                    <td><%-upcomingevent._id%></td>
+
+                    <td style="font-weight: 800">
+                        <a href="/<%-upcomingevent._id%>/getdtails">
+                            <button
+                                class="btn btn-primary"
+                                style="width: 300px"
+                            >
+                                 Tap To know More
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+                <%})%>
+            </tbody>
+        </table>
     </div>
-</div>
+</section>
+
+<section class="m-3">
+    <div class="section-3 mt-4 container">
+        <div class="d-flex justify-content-between m-3 ">
+            <h3>Past Events</h3>
+            <a class="form-inline" href="/getallpastevent/api">
+                <button
+                    class="btn btn-outline-success my-2 my-sm-0 text-black border-black"
+                    type="submit"
+                >
+                    PastEvents API
+                </button>
+            </a>
+        </div>
+    <div class="section-3 mt-3 container">
+        <table class="table border">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">EventId</th>
+                    <th scope="col">Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%pastevent.forEach(function(pastevent){%>
+                <tr>
+                    <th scope="row">*</th>
+
+                    <td><%-pastevent._id%></td>
+
+                    <td style="font-weight: 800">
+                        <a href="/<%-upcomingevent._id%>/getdtails">
+                            <button
+                                class="btn btn-primary"
+                                style="width: 300px"
+                            >
+                                Tap To know More
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+                <%})%>
+            </tbody>
+        </table>
+</section>
+

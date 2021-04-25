@@ -94,9 +94,6 @@ passport.use(
 app.use(luckyDrawRoutes);
 app.use(Auth);
 
-app.get('*', function (req, res) {
-    res.json({ message: 'something went worng' });
-});
 // server listen Port
 // const PORT = process.env.PORT || 3000;
 app.listen(3000, () => {

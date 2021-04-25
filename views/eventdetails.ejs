@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link  rel="stylesheet" href="/css/show.css">
+
+<!--                            style        -->
+</head>
+
+<body>
+
+<!--                    Navbar                                      -->
+
+<nav class="navbar navbar-expand  navbar-dark bg-dark fixed-top justify-content-between">
+<a class="navbar-brand" href="/campground">LuckyDraw</a>
+ <ul class="navbar-nav">
+  <li class="nav-item">
+      <a href="/<%-luckdraws._id%>/winners"><button
+    class="btn btn-outline-success my-2 my-sm-0 text-black border-black ml-2"
+    type="submit"
+>
+    Get API
+</button>
+</a>
+</li>
+ </ul>
+</nav>
+
+<section>
+<div class="campground-container border container p-2">
+   <!--<img class="campground-image mb-2  rounded"src="https://picsum.photos/200/300?random=1">--> 
+<div class="row">
+  <div class="col-12 campground-title ml-2 mb-2 "><span id="span"class="ml-1">LuckyDraw Event</span></div>
+  <div class="col-12 campground-description ml-2 ">The most straightforward form of a lucky draw is to draw random numbers assigned to entrants from a pool of mixed numbers. The entrant with the winning number gets the reward. ... Almost all of these games are based on numbers, and the idea behind them is the same: win through random numbers.</div>
+  <div class="col-12 campground-author ml-2 text-right mr-5 pr-5 mt-3 ">Winner Announced at  <span><%-luckdraws['event_date']['day']%>/<%-luckdraws['event_date']['month']%>/<%-luckdraws['event_date']['year']%></span></div>
+  <div class="col-12 campground-author ml-2 text-right mr-5 pr-5 mt-3 "> Total Participant  <span class="text-danger"><%-luckdraws['participated_users'].length%></span> </div>
+</div>
+</section>
+
+<!--                     Section 3                                                      -->
+<section class="section-3 ">
+  <div class="container p-0  mt-2">
+  <div class="comment mb-2">Winners</div>
+  <div class="border rounded comment-section p-3">
+     <div>
+       <div class='d-flex justify-content-between'> 
+        <a href="/<%-luckdraws._id%>/checkuservalidity" class="btn btn-success  text-light  comment-button ">Register</a>
+           <a href="/<%-luckdraws._id%>/winners" class="btn btn-success  text-light  comment-button ">Winners API</a></div>
+<hr>
+     </div>
+     <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Prizes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+
+            <td ><% if(luckdraws['winners']['first_postion']['name']===undefined){%>
+                Yet not Announced
+                <%} else{%>
+                   <%- luckdraws['winners']['first_postion']['name']%>
+
+                <%}%></td>
+            
+            <td style="font-weight: 800;"><% if(luckdraws['first_prize']===undefined){%>
+                Yet not Decided
+                <%} else{%>
+                   <%- luckdraws['first_prize'].toUpperCase()%>
+
+                <%}%></td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td><% if(luckdraws['winners']['second_position']['name']===undefined){%>
+                Yet not Announced
+                <%} else{%>
+                   <%- luckdraws['winners']['second_position']['name']%>
+
+                <%}%></td>
+            
+            <td style="font-weight: 800;"><% if(luckdraws['second_prize']===undefined){%>
+                Yet not Decided
+                <%} else{%>
+                   <%- luckdraws['second_prize'].toUpperCase()%>
+
+                <%}%></td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td><% if(luckdraws['winners']['third_position']['name']===undefined){%>
+                Yet not Announced
+                <%} else{%>
+                   <%- luckdraws['winners']['third_position']['name']%>
+
+                <%}%>
+
+            
+            </td>
+            
+            <td style="font-weight: 800;"><% if(luckdraws['third_prize']===undefined){%>
+                Yet not Decided
+                <%} else{%>
+                   <%- luckdraws['third_prize'].toUpperCase()%>
+
+                <%}%></td>
+          </tr>
+        </tbody>
+      </table>
+
+  </div>
+  </div>
+</section>
+
+
+<!--                Bottom Part                                      -->
+
+<div class="bottom"></div>
+
+
+
+
+</body>
+  
+  </html>
+  
+  
+  <script>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ 

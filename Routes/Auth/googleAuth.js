@@ -15,11 +15,10 @@ route.get(
 
 route.get('/logout', function (req, res) {
     req.logout();
-    res.redirect('/getallluckydraw/api');
+    res.redirect('/getallluckydraw');
 });
 
-route.get('/', function (req, res) {
-    res.render('login.ejs');
+route.get('/', (req, res) => {
+    res.render('login');
 });
-
 module.exports = route;

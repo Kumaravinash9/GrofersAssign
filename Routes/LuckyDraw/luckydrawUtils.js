@@ -8,8 +8,8 @@ const checkvalidity = function (eventDate) {
         if (today.getFullYear() === eventDate['year']) {
             if (today.getMonth() + 1 < eventDate['month']) return true;
             if (today.getMonth() + 1 === eventDate['month']) {
-                if (today.getDay() < eventDate['day']) return true;
-                if (today.getDay() === eventDate['day']) {
+                if (today.getDate() < eventDate['day']) return true;
+                if (today.getDate() === eventDate['day']) {
                     if (today.getHours() < eventDate['hour']) return true;
                     if (today.getHours() === eventDate['hour']) {
                         if (today.getMinutes() < eventDate['min']) return true;
@@ -68,27 +68,26 @@ const getoneweekcheck = function (eventDate) {
         eventDate['month'] !== today.getMonth() + 1
     )
         return false;
-    if (dateoneweek.getDay() > today.getDay()) {
+    if (dateoneweek.getDate() > today.getDate()) {
         if (
-            eventDate['day'] >= dateoneweek.getDay() ||
-            eventDate['day'] <= today.getDay()
+            eventDate['day'] >= dateoneweek.getDate() ||
+            eventDate['day'] <= today.getDate()
         )
             return true;
         return false;
     } else {
         if (
-            eventDate['day'] >= dateoneweek.getDay() &&
-            eventDate['day'] <= today.getDay()
+            eventDate['day'] >= dateoneweek.getDate() &&
+            eventDate['day'] <= today.getDate()
         )
             return true;
         return false;
     }
-    return true;
 };
 
 const checkParticipation = function (UserticketList, userId) {
     for (var i = 0; i < UserticketList.length; i++)
-        if (JSON.stringify(UserticketList[i]) === JSON.stringify(userId))
+        if (JSON.stringify(UserticketList[i].id) === JSON.stringify(userId))
             return false;
     return true;
 };
@@ -97,7 +96,6 @@ const checkalreadyhaveticket = function (UserticketList, ticketId) {
     for (var i = 0; i < UserticketList.length; i++)
         if (JSON.stringify(UserticketList[i]) === JSON.stringify(ticketId))
             return false;
-
     return true;
 };
 
@@ -126,7 +124,10 @@ const getoneweek = function (luckdraw) {
     const result = [];
     luckdraw.forEach((e) => {
         if (e.isvalid) e.isvalid = checkvalidity(e['event_date']);
+
         const check = getoneweekcheck(e['event_date']);
+        console.log(e['event_date']['month'], check);
+
         if (check) {
             if (
                 e['winners']['first_postion']['name'] === undefined &&
