@@ -34,7 +34,8 @@ I defined a function which checks that a event will occur or not in a last week(
  By using `getobeweek`, i filtered the event which  has occured in one week ago and also check the winners of the event decided or not . if winner was not  decided, it chose  the three random users  from the list of participated user and map the random choosen winners in the `winners field` and return the list of winners. Logic code is defined in route `/getlastweekwinner` in  `Routes/LuckyDraw/luckyDraw.js` file. function for choosing  random  three numbers is defined in  `Routes/LuckyDraw/luckyDrawUtils.js` file by the name of `firstrandomNumber`, `secondrandomNumber` and `thirdrandomNumber`.
 
 * Compute the winner for the event and announce the winner.
-almost same as for the lastoneweekwinners API.  Logic code is defined in  route `/:id/winners` which is available in`Routes/LuckyDraw/luckyDraw.js` file.
+
+Almost same as for the lastoneweekwinners API.  Logic code is defined in  route `/:id/winners` which is available in`Routes/LuckyDraw/luckyDraw.js` file.
 
 
 
