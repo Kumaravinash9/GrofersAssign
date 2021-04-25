@@ -5,7 +5,7 @@ A LuckyDraw Event App
  Here Is the link of the Website : https://nameless-beyond-87561.herokuapp.com/
  
  
-![home](https://user-images.githubusercontent.com/64456168/115983972-2b158080-a5c2-11eb-8392-57a4e46bac18.JPG)
+![home](https://user-images.githubusercontent.com/64456168/115984905-f6f08e80-a5c6-11eb-9f9c-8f2b5a9900c3.JPG)
 
 
 
@@ -22,10 +22,13 @@ A LuckyDraw Event App
 
 
 
+![eventregisteration](https://user-images.githubusercontent.com/64456168/115984897-efc98080-a5c6-11eb-9416-0df8a3dec0a3.JPG)
+
+
 **This is an Login Page of the Website**
 
 
-![login](https://user-images.githubusercontent.com/64456168/115984387-8e081700-a5c4-11eb-9639-64274c0dd36a.JPG)
+![login](https://user-images.githubusercontent.com/64456168/115984953-328b5880-a5c7-11eb-8026-aa5ef34f061f.JPG)
 
 
 
