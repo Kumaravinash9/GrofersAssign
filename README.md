@@ -78,6 +78,8 @@ Almost same as for the lastoneweekwinners API.  Logic code is defined in  route 
 * `npm: v6.14.41`
 * `MongoDb`
 
+### Development
+
 **Fontend Section**
 
     HTML
@@ -86,7 +88,7 @@ Almost same as for the lastoneweekwinners API.  Logic code is defined in  route 
     JavaScript
    
    
-**Backend Section**
+# Backend Section**
 
 
    **Dependencies**
@@ -135,6 +137,7 @@ Almost same as for the lastoneweekwinners API.  Logic code is defined in  route 
 
 #### Build and load the app
 * `npm install`
+* `npm start`
 * run `localhost:3000` in the browser 
 
 #### Code linting and formatting
