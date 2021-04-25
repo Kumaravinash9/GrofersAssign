@@ -269,7 +269,7 @@ route.get('/:id/checkuservalidity', isLoggedIn, (req, res, next) => {
                                 $push: {
                                     participated_users: {
                                         id: user._id,
-                                        name: user.name,
+                                        name: user.username,
                                     },
                                 },
                             },
@@ -344,7 +344,7 @@ route.get('/:id/checkuservalidity/api', isLoggedIn, (req, res, next) => {
                                 $push: {
                                     participated_users: {
                                         id: user._id,
-                                        name: user.name,
+                                        name: user.username,
                                     },
                                 },
                             },

@@ -7,6 +7,7 @@ const UserSchema = new Schema({
     username: {
         type: String,
         required: true,
+        unique: true,
     },
     googleId: {
         type: String,
@@ -15,6 +16,10 @@ const UserSchema = new Schema({
         type: String,
     },
     tickets: [{ type: ObjectId, ref: 'luckyDraw' }],
+    password: {
+        type: String,
+        required: true,
+    },
 });
 
 UserSchema.plugin(passportLocalMong);

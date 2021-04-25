@@ -3,17 +3,6 @@ const route = express.Router();
 const passport = require('passport');
 const User = require('../../models/user');
 
-route.get('/google', passport.authenticate('google', { scope: ['profile'] }));
-
-route.get(
-    '/googleAuth',
-    passport.authenticate('google', {
-        failureRedirect: '/',
-        successRedirect: '/getallluckydraw',
-    }),
-    function (req, res) {}
-);
-
 route.get('/register', function (req, res) {
     res.render('register');
 });
@@ -43,9 +32,8 @@ route.get('/', function (req, res) {
 route.post(
     '/login',
     passport.authenticate('local', {
-        successRedirect: '/getallluckydraw',
-
         failureRedirect: '/',
+        successRedirect: '/getallluckydraw',
     }),
     function (req, res) {}
 );
