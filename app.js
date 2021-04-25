@@ -11,11 +11,13 @@ const luckyDrawRoutes = require('./Routes/LuckyDraw/luckyDraw');
 const Auth = require('./Routes/Auth/googleAuth');
 const app = express();
 const cors = require('cors');
+const passportLocal = require('passport-local');
 
 dotenv.config({
     path: 'config.env',
 });
 app.use(cors());
+
 // local mongos database
 mongoose.connect(
     'mongodb+srv://avinash:9905645732@cluster1.pkvrv.mongodb.net/grofers?retryWrites=true&w=majority',
@@ -44,6 +46,9 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+passport.use(new passportLocal(User.authenticate()));
 
 passport.serializeUser(function (user, done) {
     done(null, user.id);

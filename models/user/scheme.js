@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const passportLocalMong = require('passport-local-mongoose');
 const ObjectId = Schema.Types.ObjectId;
 
 const UserSchema = new Schema({
-    name: {
+    username: {
         type: String,
         required: true,
     },
@@ -15,6 +16,8 @@ const UserSchema = new Schema({
     },
     tickets: [{ type: ObjectId, ref: 'luckyDraw' }],
 });
+
+UserSchema.plugin(passportLocalMong);
 
 /**
  * @type {Schema}
