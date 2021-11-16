@@ -142,4 +142,3 @@ Almost same as for the lastoneweekwinners API.  Logic code is defined in  route 
 
 #### Code linting and formatting
 GrofersAssign uses **Prettier + Eslint** for code listing and formatting. To check if your code follows the guidelines, run `npm run prettier`
-
